@@ -1,0 +1,35 @@
+class Solution {
+  public:
+    
+    bool dfs(vector<int>&vis, int parent,int node, vector<int> graph[]){
+        vis[node] = 1;
+        for(auto adj : graph[node]){
+            if(!vis[adj]){
+                if(dfs(vis, node, adj, graph)) return true;
+            }else{
+                if(parent != adj) return true;
+            }
+        }
+        return false;
+    }
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
+        //convert input to adjacency list graph representation
+        vector<int> graph[V];
+        for(auto edge : edges){
+            int u = edge[0];
+            int v = edge[1];
+            graph[u].push_back(v);
+            graph[v].push_back(u);
+        }
+        // vis array
+        vector<int> vis(V,0);
+        // checking for each component
+        for(int i = 0; i < V; i++){
+            if(!vis[i]){
+                if(dfs(vis, -1, i, graph)) return true;
+            }
+        }
+        return false;
+    }
+};
