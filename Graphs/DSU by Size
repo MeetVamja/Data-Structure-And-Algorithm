@@ -1,0 +1,23 @@
+vector<int> parent;
+vector<int> size;
+    
+    int find(int v){
+        if(v == parent[v]) return v;
+        return parent[v] = find(parent[v]);
+    }
+    void Union(int x, int y){
+// finding representative of x and y
+        int parent_x = find(x);
+        int parent_y = find(y);
+// if they are equal then they belong to the same set
+        if(parent_x == parent_y) return;
+// checking the size of that set
+        int size_x = size[parent_x];
+        int size_y = size[parent_y];
+        
+        if(size_x < size_y){
+            swap(parent_x, parent_y);
+        }
+        parent[parent_y] = parent_x;
+        size[parent_x]+= size[parent_y];
+    }
