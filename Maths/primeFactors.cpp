@@ -20,7 +20,7 @@ vector<int> primeFactors(int n) {
         }
     }
 
-    // If n is a prime number greater than 2
+    // If n is a prime number greater than 1
     if (n > 1)
         factors.push_back(n);
 
