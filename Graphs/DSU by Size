@@ -1,23 +1,34 @@
-vector<int> parent;
-vector<int> size;
-    
-    int find(int v){
-        if(v == parent[v]) return v;
-        return parent[v] = find(parent[v]);
+class DSU {
+public:
+    vector<int> parent;
+    vector<int> size;
+
+    DSU(int n) {
+        parent.resize(n);
+        size.assign(n, 1);
+
+        for (int i = 0; i < n; i++)
+            parent[i] = i;
     }
-    void Union(int x, int y){
-// finding representative of x and y
+
+    int find(int v) {
+        if (v == parent[v])
+            return v;
+        return parent[v] = find(parent[v]);   // Path Compression
+    }
+
+    void Union(int x, int y) {
         int parent_x = find(x);
         int parent_y = find(y);
-// if they are equal then they belong to the same set
-        if(parent_x == parent_y) return;
-// checking the size of that set
-        int size_x = size[parent_x];
-        int size_y = size[parent_y];
-        
-        if(size_x < size_y){
+
+        if (parent_x == parent_y)
+            return;
+
+        // Union by Size
+        if (size[parent_x] < size[parent_y])
             swap(parent_x, parent_y);
-        }
+
         parent[parent_y] = parent_x;
-        size[parent_x]+= size[parent_y];
+        size[parent_x] += size[parent_y];
     }
+};
